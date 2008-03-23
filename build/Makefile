@@ -3,21 +3,22 @@ CSC35 = %windir%\Microsoft.NET\Framework\v3.5\csc.exe
 CSC = $(CSC35)
 
 DIR_SRC = ..\src
+DIR_SRC_SMNG = $(DIR_SRC)\Setting
 DIR_SRC_ATOM = $(DIR_SRC)\Atom
 
 SRC_SMNG = \
-	$(DIR_SRC)\ArrayConverter.cs \
-	$(DIR_SRC)\DateTimeConverter.cs \
-	$(DIR_SRC)\FileInfoConverter.cs \
-	$(DIR_SRC)\FlexibleConverter.cs \
-	$(DIR_SRC)\IPAddressConverter.cs \
-	$(DIR_SRC)\ISettingsManager.cs \
-	$(DIR_SRC)\SettingsItem.cs \
-	$(DIR_SRC)\SettingsItemInfo.cs \
-	$(DIR_SRC)\SettingsManager.cs \
-	$(DIR_SRC)\SettingsManagerBase.cs \
-	$(DIR_SRC)\SettingsManagerException.cs \
-	$(DIR_SRC)\UriOriginalStringEqualityComparer.cs \
+	$(DIR_SRC_SMNG)\ArrayConverter.cs \
+	$(DIR_SRC_SMNG)\DateTimeConverter.cs \
+	$(DIR_SRC_SMNG)\FileInfoConverter.cs \
+	$(DIR_SRC_SMNG)\FlexibleConverter.cs \
+	$(DIR_SRC_SMNG)\IPAddressConverter.cs \
+	$(DIR_SRC_SMNG)\ISettingsManager.cs \
+	$(DIR_SRC_SMNG)\SettingsItem.cs \
+	$(DIR_SRC_SMNG)\SettingsItemInfo.cs \
+	$(DIR_SRC_SMNG)\SettingsManager.cs \
+	$(DIR_SRC_SMNG)\SettingsManagerBase.cs \
+	$(DIR_SRC_SMNG)\SettingsManagerException.cs \
+	$(DIR_SRC_SMNG)\UriOriginalStringEqualityComparer.cs \
 
 SRC_ATOM = \
 	$(DIR_SRC_ATOM)\AtomBaseElement.cs \
@@ -42,24 +43,24 @@ SRC_ATOM = \
 	$(DIR_SRC_ATOM)\Helper.cs \
 	$(DIR_SRC_ATOM)\IAtomXmlReader.cs \
 
-binary : $(SRC_SMNG) $(DIR_SRC)\SettingsManagerSerializer.cs $(DIR_SRC)\SettingsManager.IO.Binary.cs
+binary : $(SRC_SMNG) $(DIR_SRC_SMNG)\SettingsManagerSerializer.cs $(DIR_SRC_SMNG)\SettingsManager.IO.Binary.cs
 	$(CSC) /target:library /out:SettingsManager.dll $**
-binarydebug : $(SRC_SMNG) $(DIR_SRC)\SettingsManagerSerializer.cs $(DIR_SRC)\SettingsManager.IO.Binary.cs
+binarydebug : $(SRC_SMNG) $(DIR_SRC_SMNG)\SettingsManagerSerializer.cs $(DIR_SRC_SMNG)\SettingsManager.IO.Binary.cs
 	$(CSC) /debug /target:library /out:SettingsManager_debug.dll $**
 
-soap : $(SRC_SMNG) $(DIR_SRC)\SettingsManagerSerializer.cs $(DIR_SRC)\SettingsManager.IO.Soap.cs
+soap : $(SRC_SMNG) $(DIR_SRC_SMNG)\SettingsManagerSerializer.cs $(DIR_SRC_SMNG)\SettingsManager.IO.Soap.cs
 	$(CSC) /target:library /out:SettingsManager.dll $**
-soapdebug : $(SRC_SMNG) $(DIR_SRC)\SettingsManagerSerializer.cs $(DIR_SRC)\SettingsManager.IO.Soap.cs
+soapdebug : $(SRC_SMNG) $(DIR_SRC_SMNG)\SettingsManagerSerializer.cs $(DIR_SRC_SMNG)\SettingsManager.IO.Soap.cs
 	$(CSC) /debug /target:library /out:SettingsManager_debug.dll $**
 
-inilike : $(SRC_SMNG) $(DIR_SRC)\SettingsManager.IO.IniLike.cs
+inilike : $(SRC_SMNG) $(DIR_SRC_SMNG)\SettingsManager.IO.IniLike.cs
 	$(CSC) /target:library /out:SettingsManager.dll $**
-inilikedebug : $(SRC_SMNG) $(DIR_SRC)\SettingsManager.IO.IniLike.cs
+inilikedebug : $(SRC_SMNG) $(DIR_SRC_SMNG)\SettingsManager.IO.IniLike.cs
 	$(CSC) /debug /target:library /out:SettingsManager_debug.dll $**
 
-atom : $(SRC_SMNG) $(SRC_ATOM) $(DIR_SRC)\SettingsManager.IO.Atom.cs
+atom : $(SRC_SMNG) $(SRC_ATOM) $(DIR_SRC_SMNG)\SettingsManager.IO.Atom.cs
 	$(CSC) /target:library /out:SettingsManager.dll $**
-atomdebug : $(SRC_SMNG) $(SRC_ATOM) $(DIR_SRC)\SettingsManager.IO.Atom.cs
+atomdebug : $(SRC_SMNG) $(SRC_ATOM) $(DIR_SRC_SMNG)\SettingsManager.IO.Atom.cs
 	$(CSC) /debug /target:library /out:SettingsManager_debug.dll $**
 
 clean :
