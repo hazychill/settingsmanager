@@ -67,10 +67,19 @@ namespace Hazychill.Setting {
     }
 
     public string Unescape(string text) {
-      text = text.Replace("\\n", "\n");
-      text = text.Replace("\\r", "\r");
-      text = text.Replace("\\\"", "\"");
-      text = text.Replace("\\\\", "\\");
+      Dictionary<string, string> dic = new Dictionary<string, string>();
+      dic.Add("n", "\n");
+      dic.Add("r", "\r");
+      dic.Add("\"", "\"");
+      dic.Add("\\", "\\");
+
+      text = Regex.Replace(text, "\\\\(.)", delegate(Match m) {
+        string s;
+        if (!dic.TryGetValue(m.Groups[1].Value, out s)) {
+          s = m.Value;
+        }
+        return s;
+      });
 
       return text;
     }
