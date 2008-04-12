@@ -22,7 +22,7 @@ namespace Hazychill.Setting {
       _typeMap = new Dictionary<string, Type>();
     }
 
-    public virtual void Save(TextWriter writer) {
+    protected virtual void SaveStrict(TextWriter writer) {
       foreach (SettingsItemInfo info in this) {
         Uri id = info.ID;
         string name = info.Name;
@@ -45,16 +45,63 @@ namespace Hazychill.Setting {
       writer.Flush();
     }
 
-    public virtual void Save(Stream output) {
+    protected virtual void SaveSimple(TextWriter writer) {
+      foreach (SettingsItemInfo info in this) {
+        string name = info.Name;
+        Type type = info.Type;
+        object value = info.Value;
+
+        string nameString = Escape(name, '=');
+        string valueString = Escape(ConvertToString(value), ',');
+
+        if (type == typeof(string)) {
+          writer.WriteLine("\"{0}\"=\"{1}\"",
+                           nameString,
+                           valueString);
+        }
+        else {
+          string typeString = Escape(type.FullName, ',');
+          writer.WriteLine("\"{0}\"=\"{1}\",\"{2}\"",
+                           nameString,
+                           valueString,
+                           typeString);
+        }
+      }
+
+      writer.Flush();
+    }
+
+    public void Save(TextWriter writer, bool useSimpleFormat) {
+      if (useSimpleFormat) {
+        SaveSimple(writer);
+      }
+      else {
+        SaveStrict(writer);
+      }
+    }
+
+    public void Save(TextWriter writer) {
+      Save(writer, false);
+    }
+
+    public void Save(Stream output, bool useSimpleFormat) {
       TextWriter writer = new StreamWriter(output, new UTF8Encoding());
-      Save(writer);
+      Save(writer, useSimpleFormat);
       output.Flush();
     }
 
-    public virtual void Save(string fileName) {
+    public void Save(Stream output) {
+      Save(output, false);
+    }
+
+    public void Save(string fileName, bool useSimpleFormat) {
       using (Stream output = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.Read)) {
-        Save(output);
+        Save(output, useSimpleFormat);
       }
+    }
+
+    public void Save(string fileName) {
+      Save(fileName, false);
     }
 
     private string Escape(string text, params char[] separators) {
